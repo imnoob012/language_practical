@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  /* align-items: flex-start; 上端揃え*/
+  /* align-items: stretch; 縦幅全体まで要素が伸びる。デフォルト */
+  /* align-items: flex-end; 下端揃え */
+  align-items: center;
+  width: 500px;
+  height: 100px;
+  border: 1px solid #000;
+}
+
+.item {
+  border: 1px solid #000;
+}

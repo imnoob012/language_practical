@@ -1,0 +1,126 @@
+.container {
+  display: grid;
+  grid-template:
+    "header header header header header header header" auto
+    "...... ...... ...... ...... ...... ...... ......" 20px
+    "...... left ...... center ...... right ......" auto
+    "...... ...... ...... ...... ...... ...... ......" 30px
+    "footer footer footer footer footer footer footer" 200px
+    / 1fr 100px 40px auto 40px 120px 1fr;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  /* 指定したwidthとheightが、要素の最終的なサイズになる */
+  padding: 0;
+  margin: 0;
+}
+
+ol,
+ul {
+  list-style-type: none;
+  /* 箇条書きの記号を非表示 */
+}
+
+/* 子 */
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-area: header;
+}
+
+.header__top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__menu-sp {
+  display: none;
+}
+
+.header__menu-sp-nav {
+  display: none;
+}
+
+.header__menu-sp div {
+  width: 100%;
+  height: 2px;
+  background: #2a8722;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+@media screen and (width < 641px) {
+  .header__menu-sp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 30px;
+  }
+
+  .header__menu-sp:hover > .header__menu-sp-nav {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    display: block;
+    width: 100%;
+    background-color: #2a872a;
+  }
+
+  .header__nav {
+    display: none;
+  }
+}
+
+.card__list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card__item {
+  display: flex;
+  flex-direction: column;
+  /* flex-direction: row; デフォルト*/
+  gap: 10px;
+  padding: 10px;
+}
+
+.card__item-title {
+  border: 1px solid #000;
+}
+
+.card__item-detail {
+  border: 1px solid #000;
+}
+
+.left {
+  grid-area: left;
+  background: blue;
+}
+
+.center {
+  grid-area: center;
+  background: green;
+}
+
+.right {
+  grid-area: right;
+  background: yellow;
+}
+
+.footer {
+  grid-area: footer;
+  background: orange;
+}
+
+/*
+grid-template:
+  [grid-template-areas]
+  [grid-template-rows] / [grid-template-columns];
+*/
