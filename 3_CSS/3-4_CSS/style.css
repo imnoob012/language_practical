@@ -33,20 +33,20 @@ ul {
   flex-direction: column;
 }
 
-.header_title {
+.image_title {
   position: absolute;
   color: white;
-  top: 50%;
+  top: 37.5%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.header_title > strong {
-  font-size: 6vw;
+.image_title > strong {
+  font-size: 4vw;
 }
 
-.header_title > p {
-  font-size: 3vw;
+.image_title > p {
+  font-size: 2vw;
 }
 
 .header_top {
@@ -86,12 +86,13 @@ ul {
   color: #2a8722;
 }
 
-.bg img {
-  max-width: 100%;
+.picture img {
+  width: 100%;
   z-index: 1;
+  height: 75%;
 }
 
-.bg {
+.picture {
   position: relative;
   grid-area: picture;
 }
