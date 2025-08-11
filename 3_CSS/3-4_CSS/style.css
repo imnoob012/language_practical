@@ -4,6 +4,12 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: "Open Sans",Hiragino Sans,"ヒラギノ角ゴシック","ヒラギノ角ゴPro W3","Hiragino Kaku Gothic Pro",Meiryo,"メイリオ",YuGothic,"游ゴシック体","Yu Gothic","游ゴシック",Arial,Helvetica,Verdana,sans-serif;
+  text-decoration: none;
+}
+
+a:visited {
+  color: black;
 }
 
 ul {
@@ -13,12 +19,11 @@ ul {
 .container {
   display: grid;
   grid-template:
-    "header header header header header header header" auto
-    "...... ...... ...... ...... ...... ...... ......" 20px
-    "...... left ...... center ...... right ......" auto
-    "...... ...... ...... ...... ...... ...... ......" 30px
-    "footer footer footer footer footer footer footer" 200px
-    / 1fr 100px 40px auto 40px 120px 1fr;
+    "header header header header" auto
+    "picture picture picture picture" auto
+    "center center center center" auto
+    "...... footer footer ......" 100px
+    / 1fr 1fr 1fr 1fr;
 }
 
 .header {
@@ -28,9 +33,27 @@ ul {
   flex-direction: column;
 }
 
+.header_title {
+  position: absolute;
+  color: #000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header_title > strong {
+  font-size: 3em;
+}
+
+.header_title > p {
+  font-size: 1.5em;
+}
+
 .header_top {
   display: flex;
   justify-content: space-between;
+  padding: 10px 20px;
+  align-items: center;
 }
 
 .header_menu-sp {
@@ -42,7 +65,7 @@ ul {
 }
 
 .header_menu-sp div {
-  width: 100%;
+  width: 30px;
   height: 2px;
   background: #2a8722;
 }
@@ -50,59 +73,146 @@ ul {
 .header_nav {
   display: flex;
   justify-content: space-evenly;
+  height: 47px;
+  font-size: 16px;
+}
+
+.header_nav a {
+  transition: color 0.3s ease;
+}
+
+.header_nav a:hover {
+  color: #2a8722;
 }
 
 .bg img {
   max-width: 100%;
 }
 
+.bg {
+  position: relative;
+  grid-area: picture;
+}
+
 @media screen and (width <= 640px) {
   .header_menu-sp {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 30px;
+    height: 24px;
   }
 
   .header_menu-sp:hover > .header_menu-sp-nav {
     position: absolute;
-    top: 55px;
+    top: 85px;
     left: 0;
     display: block;
     width: 100%;
     background: green;
-
-    .header_nav {
-      display: none;
-    }
+    padding: 10px 20px;
   }
 
+  .header_menu-sp-nav a {
+    color: white;
+    font-size: 14px;
+  }
+
+  .header_menu-sp-nav > li {
+    padding: 10px 0;
+  }
+
+  .header_menu-sp-nav > li::before {
+    content: ">";
+    margin-right: 4px;
+    color: white;
+  }
+
+  .header_nav {
+    display: none;
+  }
 }
 
 .center {
   grid-area: center;
+  padding: 0px 10px;
 }
 
 .card_list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card_item {
-  display: flex;
-  flex-direction: column;
+  text-align: center;
   gap: 10px;
-  padding: 10px;
+  padding: 30px;
+  transition: background-color 0.5s ease;
+  font-size: 18px;
 }
 
 .card_item:hover {
-  border: 1px solid green;
+  background-color: #e2f8d6;
 }
 
 .card_item-detail {
   color: green;
+  font-size: 12px;
 }
 
 .footer {
   grid-area: footer;
 }
+
+.top_content,
+.top {
+  display: flex;
+  justify-content: center;
+}
+
+.top_content {
+  display: flex;
+  margin-bottom: 40px;
+  font-size: 16px;
+  justify-content: center;
+}
+
+.top {
+  margin-bottom: 30px;
+  font-weight: normal;
+}
+
+.footer > a {
+  display: flex;
+  border: 2px solid green;
+  justify-content:  center;
+  padding: 20px;
+  margin: 10px;
+  color: #2a8722;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* trasition-property transition-duration transition-timing-function */
+
+}
+
+.footer > a:hover {
+  background-color: #2a8722;
+  color: aliceblue;
+}
+
+.top_box {
+  text-align: center;
+  /* ブロック要素に指定し、その要素内のインライン要素の水平方向位置変更 */
+  flex-direction: column;
+}
+
+.top_en {
+  font-size: 40px;
+  color: #2a8722;
+}
+
+
+
+
+
+
