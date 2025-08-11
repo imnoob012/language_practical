@@ -35,18 +35,18 @@ ul {
 
 .header_title {
   position: absolute;
-  color: #000;
+  color: white;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .header_title > strong {
-  font-size: 3em;
+  font-size: 6vw;
 }
 
 .header_title > p {
-  font-size: 1.5em;
+  font-size: 3vw;
 }
 
 .header_top {
@@ -79,6 +79,7 @@ ul {
 
 .header_nav a {
   transition: color 0.3s ease;
+  color: black;
 }
 
 .header_nav a:hover {
@@ -87,6 +88,7 @@ ul {
 
 .bg img {
   max-width: 100%;
+  z-index: 1;
 }
 
 .bg {
@@ -111,6 +113,7 @@ ul {
     width: 100%;
     background: green;
     padding: 10px 20px;
+    z-index: 2;
   }
 
   .header_menu-sp-nav a {
