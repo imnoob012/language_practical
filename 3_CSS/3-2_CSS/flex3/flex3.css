@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  /* justify-content: flex-start; 左揃えでデフォルト */
+  /* justify-content: flex-end; 右揃え */
+  /* justify-content: center;  中央揃え*/
+  /* justify-content: space-between; 左端、右端を除いた要素間に余白をつける */
+  justify-content: space-evenly;
+  width: 500px;
+  border: 1px solid #000;
+}
+
+.item {
+  border: 1px solid #000;
+}

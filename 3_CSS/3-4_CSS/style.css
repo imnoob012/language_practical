@@ -1,0 +1,215 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans",Hiragino Sans,"ヒラギノ角ゴシック","ヒラギノ角ゴPro W3","Hiragino Kaku Gothic Pro",Meiryo,"メイリオ",YuGothic,"游ゴシック体","Yu Gothic","游ゴシック",Arial,Helvetica,Verdana,sans-serif;
+  text-decoration: none;
+}
+
+a:visited {
+  color: black;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.container {
+  display: grid;
+  grid-template:
+    "header header header header" auto
+    "picture picture picture picture" auto
+    "center center center center" auto
+    "...... footer footer ......" 100px
+    / 1fr 1fr 1fr 1fr;
+}
+
+.header {
+  grid-area: header;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.image_title {
+  position: absolute;
+  color: white;
+  top: 37.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.image_title > strong {
+  font-size: 4vw;
+}
+
+.image_title > p {
+  font-size: 2vw;
+}
+
+.header_top {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  align-items: center;
+}
+
+.header_menu-sp {
+  display: none;
+}
+
+.header_menu-sp-nav {
+  display: none;
+}
+
+.header_menu-sp div {
+  width: 30px;
+  height: 2px;
+  background: #2a8722;
+}
+
+.header_nav {
+  display: flex;
+  justify-content: space-evenly;
+  height: 47px;
+  font-size: 16px;
+}
+
+.header_nav a {
+  transition: color 0.3s ease;
+  color: black;
+}
+
+.header_nav a:hover {
+  color: #2a8722;
+}
+
+.picture img {
+  width: 100%;
+  z-index: 1;
+  height: 75%;
+}
+
+.picture {
+  position: relative;
+  grid-area: picture;
+}
+
+@media screen and (width <= 640px) {
+  .header_menu-sp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 24px;
+  }
+
+  .header_menu-sp:hover > .header_menu-sp-nav {
+    position: absolute;
+    top: 85px;
+    left: 0;
+    display: block;
+    width: 100%;
+    background: green;
+    padding: 10px 20px;
+    z-index: 2;
+  }
+
+  .header_menu-sp-nav a {
+    color: white;
+    font-size: 14px;
+  }
+
+  .header_menu-sp-nav > li {
+    padding: 10px 0;
+  }
+
+  .header_menu-sp-nav > li::before {
+    content: ">";
+    margin-right: 4px;
+    color: white;
+  }
+
+  .header_nav {
+    display: none;
+  }
+}
+
+.center {
+  grid-area: center;
+  padding: 0px 10px;
+}
+
+.card_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card_item {
+  text-align: center;
+  gap: 10px;
+  padding: 30px;
+  transition: background-color 0.5s ease;
+  font-size: 18px;
+}
+
+.card_item:hover {
+  background-color: #e2f8d6;
+}
+
+.card_item-detail {
+  color: green;
+  font-size: 12px;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.top_content {
+  display: flex;
+  margin-bottom: 40px;
+  font-size: 16px;
+  justify-content: center;
+}
+
+.top {
+  margin-bottom: 30px;
+  font-weight: normal;
+}
+
+.footer > a {
+  display: flex;
+  border: 2px solid green;
+  justify-content:  center;
+  padding: 20px;
+  margin: 10px;
+  color: #2a8722;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* trasition-property transition-duration transition-timing-function */
+
+}
+
+.footer > a:hover {
+  background-color: #2a8722;
+  color: aliceblue;
+}
+
+.top_box {
+  text-align: center;
+  /* ブロック要素に指定し、その要素内のインライン要素の水平方向位置変更 */
+}
+
+.top_en {
+  font-size: 40px;
+  color: #2a8722;
+}
+
+
+
+
+
+
