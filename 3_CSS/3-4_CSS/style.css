@@ -169,12 +169,6 @@ ul {
   grid-area: footer;
 }
 
-.top_content,
-.top {
-  display: flex;
-  justify-content: center;
-}
-
 .top_content {
   display: flex;
   margin-bottom: 40px;
@@ -207,7 +201,6 @@ ul {
 .top_box {
   text-align: center;
   /* ブロック要素に指定し、その要素内のインライン要素の水平方向位置変更 */
-  flex-direction: column;
 }
 
 .top_en {
