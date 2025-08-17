@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>import_test</title>
+</head>
+<body>
+  <div>jsファイルを読み込む</div>
+  <div id="text_input_container">
+    <div>
+      <label for="text_form_1">入力欄①</label>
+      <input type="text" name="text_form_1" id="text_form_1">
+    </div>
+    <div>
+      <label for="text_form_2">入力欄②</label>
+      <input type="text" name="text_form_2" id="text_form_2">
+    </div>
+  </div>
+  <div class="radio_input_container">
+    <input type="radio" name="radio_calc_type" id="radio_plus" value="plus">
+    <label for="radio_plus">+</label>
+    <input type="radio" name="radio_calc_type" id="radio_minus" value="minus">
+    <!-- name属性の値は半角英数字とアンダースコア(_)のみ使用可能で、先頭は必ず英字で始める必要がある。 -->
+    <label for="radio_minus">-</label>
+  </div>
+  <button id="submit">送信</button>
+
+  <script src="import_test.js"></script>
+</body>
+</html>
