@@ -7,7 +7,7 @@ $(function() {
     '<label for="radio_divided_by">/</label>'
     )
   // 出力欄の要素を作成
-  $('body').append('<p></p>')
+  $('body').append('<p class="answer"></p>')
 
   $('#submit').on('click', function() {
     submitButton()
@@ -33,8 +33,8 @@ function submitButton() {
       calcResult = textForm1 / textForm2
       break;
     default:
-      $('p').text('calc type was not selected')
+      $('.answer').text('calc type was not selected')
       return false;
   }
-  $('p').text('結果は' + calcResult + 'です。');
+  $('.answer').text('結果は' + calcResult + 'です。');
 }
