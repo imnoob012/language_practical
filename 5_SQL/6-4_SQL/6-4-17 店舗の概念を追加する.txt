@@ -9,7 +9,7 @@
       店舗(shop_id)：SERIAL型かつ主キーで定義する（自動採番）
 
   ・ユーザーがどの店舗から注文したかわかること
-  ⇨order_infoテーブルにshop_idを、shopテーブルのshop_idと外部キーとして作成し、紐づける。また、order_itemテーブルにも同様に、shopテーブルのshop_idを外部キーとして参照する。
+  ⇨order_infoテーブルにshop_idを、shopテーブルのshop_idと外部キーとして作成し、紐づける。
 
   ・ユーザーは複数の店舗から複数の注文をできることを想定する
 
@@ -21,37 +21,47 @@
 
   CREATE TABLE
 
-  sql_education=# select * from shop;
-
-  shop_name | shop_id 
-  -----------+---------
-  (0 rows)
-
-  sql_education=# \dt
-
-                List of relations
-  Schema |    Name    | Type  |      Owner      
-  --------+------------+-------+-----------------
-  public | account    | table | kiyokawaritsuki
-  public | item       | table | kiyokawaritsuki
-  public | order_info | table | kiyokawaritsuki
-  public | order_item | table | kiyokawaritsuki
-  public | shop       | table | kiyokawaritsuki
-  (5 rows)
-
   sql_education=# ALTER TABLE order_info ADD COLUMN shop_id INT REFERENCES shop(shop_id);
-
   ALTER TABLE
 
-  sql_education=# select * from order_info;;
+  sql_education=# INSERT INTO shop(shop_name) VALUES('新宿店'), ('高田馬場店'), ('渋谷店');
+  INSERT 0 3
+
+  sql_education=# SELECT * FROM shop;
+  shop_name | shop_id 
+  -----------+---------
+  新宿店    |       1
+  高田馬場店  |       2
+  渋谷店    |       3
+  (3 rows)
+
+  sql_education=# UPDATE order_info SET shop_id = 1 WHERE order_info_id = 1;
+    UPDATE order_info SET shop_id = 2 WHERE order_info_id = 2;
+    UPDATE order_info SET shop_id = 3 WHERE order_info_id = 3;
+  UPDATE 1
+  UPDATE 1
+  UPDATE 1
+
+  UPDATE order_info SET shop_id = 2 WHERE shop_id IS NULL;
+  UPDATE 2
+
+  sql_education=# SELECT * FROM order_info ORDER BY order_info_id;
   order_info_id | order_date | account_id | order_info_status | shop_id 
-  ---------------+------------+------------+--------+---------
-              1 | 2024-12-30 |          1 |        |        
-              2 | 2025-01-20 |          1 |        |        
-              3 | 2024-12-31 |          2 |        |        
-              4 | 2025-01-20 |          2 |        |        
-              5 | 2025-04-01 |          2 |        |        
+  ---------------+------------+------------+-------------------+---------
+              1 | 2024-12-30 |          1 |                   |       1
+              2 | 2025-01-20 |          1 |                   |       2
+              3 | 2024-12-31 |          2 |                   |       3
+              4 | 2025-01-20 |          2 |                   |       2
+              5 | 2025-04-01 |          2 |                   |       2
   (5 rows)
 
 
+③SQL文の解説
+⒈店舗テーブルをCREATE TABLEにて、定義する
+
+⒉shopテーブルに新しいレコード（新宿店、渋谷店、高田馬場店）を挿入する
+
+⒊shop_idがNULLであるレコードを全て埋める。その際、一人のユーザーが複数の店舗で注文できるようにわかるように値をセットする
+
+⒋2と3の結果をSELECT文にて確認する
 
