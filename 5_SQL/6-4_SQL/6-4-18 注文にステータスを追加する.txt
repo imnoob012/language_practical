@@ -1,0 +1,17 @@
+6-4-18 注文にステータスを追加する
+
+①３つの要件とそれぞれに対する実現方法
+・注文の状態を確認できるように、ステータスを追加しています
+  ⇨order_infoとorder_itemの両方にそれぞれorder_info_statusカラムとorder_item_statusカラムを追加する。プログラムからの管理を想定しているが、注文のステータスは、enum型で管理します。enumの初期値は以下となっています。
+  初期値：
+      受付済：requested
+      発注済：item_ordered
+      在庫確保済：item_arrived
+      処理済：complete
+
+
+
+②実際のSQL文と実行結果
+
+
+③SQL文の解説
