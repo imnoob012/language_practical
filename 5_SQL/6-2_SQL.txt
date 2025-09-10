@@ -135,6 +135,16 @@ sql_education=# select * from item;
 
 ①order_infoにデータ挿入
 クエリ
+sql_education=# select * from account;
+
+結果
+ account_id | name
+------------+------
+          1 | ac1
+          2 | ac2
+(2 rows)
+
+クエリ
 sql_education=# insert into order_info(order_date, account_id) values
 sql_education-# ('2024-12-30', 1),
 sql_education-# ('2025-01-20', 1);
@@ -250,21 +260,21 @@ sql_education=# select * from order_item;
 
 6-2-7 条件付きselect文
 クエリ
-sql_education=# select item_id as "製品ID", name as "製品名", price as "値段" from item where price < 200 order by price asc;
+sql_education=# select item_id as "製品ID", name as "製品名", price as "値段" from item where price < 200 order by price desc;
 
 結果
- 製品ID |     製品名     | 値段
+ 製品ID |     製品名     | 値段 
 --------+----------------+------
-      5 | にんじん       |   58
-      2 | 食パン         |  158
-      7 | カップラーメン |  158
       1 | 牛乳           |  198
       6 | バナナ         |  198
+      2 | 食パン         |  158
+      7 | カップラーメン |  158
+      5 | にんじん       |   58
 (5 rows)
 
 6-2-8 集計関数付きselect文
 クエリ
-sql_education=# select (select count(*) from order_info where order_date between '2024-01-01' and '2024-12-31') as "2024年の注文数";
+sql_education=# select count(*) as "2024年の注文数" from order_info where '2024-01-01' <= order_date and order_date < '2025-01-01';
 
 結果
  2024年の注文数 
@@ -298,7 +308,7 @@ sql_education=# select order_id as "注文ID" from order_item left join item on 
 
 6-2-11 複合した条件での取得
 クエリ
-sql_education=# select name as "製品名", sum(quantity) as "注文合計数" from order_item left join item on item.item_id = order_item.item_id group by name
+sql_education=# select name as "製品名", sum(quantity) as "注文合計数" from order_item left join item on item.item_id = order_item.item_id group by name order by "注文合計数" desc;
 ;
 
 結果
@@ -317,30 +327,31 @@ sql_education=# select name as "製品名", sum(quantity) as "注文合計数" f
 
 6-2-12 集計結果からの取得①
 クエリ
-sql_education=# select order_id as "注文ID", sum(price) as "合計金額" from order_item left join item on item.item_id = order_item.item_id group by order_id order by "合計金額" desc;
+sql_education=# select order_id as "注文ID", sum(quantity * price) as "合計金額" from order_item left join item on item.item_id = order_item.item_id group by order_id order by "合計金額" desc;
 
 結果
  注文ID | 合計金額 
 --------+----------
-      5 |     2378
-      4 |     2336
-      1 |     2296
-      3 |      544
-      2 |      414
+      4 |    20354
+      5 |     5356
+      3 |     3860
+      1 |     2612
+      2 |     2170
 (5 rows)
 
 
 6-2-13 集計結果からの取得②
 クエリ
 select 
-  a.account_id, a.name, sum(quantity*price) as "合計金額" 
+  a.account_id as "ユーザーID", a.name as "ユーザー名", sum(quantity*price) as "合計金額" 
 from 
   order_item as oi 
 left join item as i on i.item_id = oi.item_id 
-left join order_info on order_info_id = order_id 
+left join order_info on order_info.order_info_id = order_id 
 left join account as a on a.account_id = order_info.account_id
 group by a.name, a.account_id 
 order by a.account_id asc;
+
 
 結果
  account_id | name | 合計金額 
