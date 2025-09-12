@@ -2,7 +2,7 @@
 
 ①３つの要件とそれぞれに対する実現方法
 ・注文の状態を確認できるように、ステータスを追加しています
-  ⇨order_infoとorder_itemの両方にそれぞれorder_info_statusカラムとorder_item_statusカラムを追加する。プログラムからの管理を想定しているが、注文のステータスは、enum型で管理します。既存の型である「order_status」に以下の値を挿入する
+  ⇨order_infoにorder_info_statusカラムを追加する。プログラムからの管理を想定しているが、注文のステータスは、enum型で管理します。既存の型である「order_status」に以下の値を挿入する
       受付済：requested
       発注済：item_ordered
       在庫確保済：item_arrived
@@ -17,120 +17,44 @@
   ALTER TYPE order_status ADD VALUE 'item_arrived';
   ALTER TYPE order_status ADD VALUE 'complete';
 
-  commit;
-  COMMIT
 
-  begin;
-  BEGIN
   UPDATE order_info SET order_info_status = 'requested' WHERE order_info_id = 1;
-  UPDATE order_item SET order_item_status = 'requested' WHERE order_id = 1 AND order_item_status IS NULL;
-  UPDATE 1
-  UPDATE 2
-
-  commit;
-  COMMIT
+  UPDATE order_info SET order_info_status = 'item_ordered' WHERE order_info_id = 3;
+  UPDATE order_info SET order_info_status = 'item_arrived' WHERE order_info_id = 4;
+  UPDATE order_info SET order_info_status = 'complete' WHERE order_info_id = 5;
 
   sql_education=# SELECT * FROM order_info ORDER BY order_info_id;
   order_info_id | order_date | account_id | order_info_status | shop_id 
   ---------------+------------+------------+-------------------+---------
               1 | 2024-12-30 |          1 | requested         |       1
               2 | 2025-01-20 |          1 | canceled          |       2
-              3 | 2024-12-31 |          2 |                   |       3
-              4 | 2025-01-20 |          2 |                   |       2
-              5 | 2025-04-01 |          2 |                   |       2
+              3 | 2024-12-31 |          2 | item_ordered      |       3
+              4 | 2025-01-20 |          2 | item_arrived      |       2
+              5 | 2025-04-01 |          2 | complete          |       2
   (5 rows)
+  sql_education=# INSERT INTO order_info(order_date, account_id, order_info_status, shop_id) 
+  VALUES(CURRENT_DATE, 2, 'requested', 3);
 
-  sql_education=# SELECT * FROM order_item ORDER BY order_id;
- id | order_id | item_id | quantity | order_item_status 
-----+----------+---------+----------+-------------------
-  3 |        1 |       7 |        2 | requested
-  2 |        1 |       4 |        1 | requested
-  1 |        1 |       2 |        2 | canceled
-  6 |        2 |       7 |        6 | canceled
-  5 |        2 |       6 |        5 | canceled
-  4 |        2 |       5 |        4 | canceled
-  7 |        3 |       3 |       10 | 
-  8 |        3 |       7 |        5 | 
-  9 |        3 |       2 |        5 | 
- 12 |        4 |       6 |        2 | 
- 11 |        4 |       7 |        1 | 
- 10 |        4 |       4 |       10 | 
- 15 |        5 |       1 |        2 | 
- 14 |        5 |       4 |        2 | 
- 13 |        5 |       8 |        5 | 
-(15 rows)
+  INSERT 0 1
 
-sql_education=# begin;
-BEGIN
-
-sql_education=*# UPDATE order_info SET order_info_status = 'item_ordered' WHERE order_info_id = 3;
-UPDATE order_item SET order_item_status = 'item_ordered' WHERE order_id = 3 AND order_item_status IS NULL;
-UPDATE 1
-UPDATE 3
-
-sql_education=*# commit;
-COMMIT
-
-sql_education=# begin;
-BEGIN
-
-sql_education=*# UPDATE order_info SET order_info_status = 'item_arrived' WHERE order_info_id = 4;
-UPDATE order_item SET order_item_status = 'item_arrived' WHERE order_id = 4 AND order_item_status IS NULL;
-UPDATE 1
-UPDATE 3
-
-sql_education=*# commit;
-
-sql_education=# begin;
-BEGIN
-
-sql_education=*# UPDATE order_info SET order_info_status = 'complete' WHERE order_info_id = 5;
-UPDATE order_item SET order_item_status = 'complete' WHERE order_id = 5 AND order_item_status IS NULL;
-
-UPDATE 1
-UPDATE 3
-
-sql_education=*# commit;
-COMMIT
-
-sql_education=# SELECT * FROM order_info ORDER BY order_info_id;
- order_info_id | order_date | account_id | order_info_status | shop_id 
----------------+------------+------------+-------------------+---------
-             1 | 2024-12-30 |          1 | requested         |       1
-             2 | 2025-01-20 |          1 | canceled          |       2
-             3 | 2024-12-31 |          2 | item_ordered      |       3
-             4 | 2025-01-20 |          2 | item_arrived      |       2
-             5 | 2025-04-01 |          2 | complete          |       2
-(5 rows)
-
-sql_education=# SELECT * FROM order_item ORDER BY order_id;
- id | order_id | item_id | quantity | order_item_status 
-----+----------+---------+----------+-------------------
-  1 |        1 |       2 |        2 | canceled
-  2 |        1 |       4 |        1 | requested
-  3 |        1 |       7 |        2 | requested
-  5 |        2 |       6 |        5 | canceled
-  4 |        2 |       5 |        4 | canceled
-  6 |        2 |       7 |        6 | canceled
-  8 |        3 |       7 |        5 | item_ordered
-  7 |        3 |       3 |       10 | item_ordered
-  9 |        3 |       2 |        5 | item_ordered
- 10 |        4 |       4 |       10 | item_arrived
- 11 |        4 |       7 |        1 | item_arrived
- 12 |        4 |       6 |        2 | item_arrived
- 13 |        5 |       8 |        5 | complete
- 14 |        5 |       4 |        2 | complete
- 15 |        5 |       1 |        2 | complete
-(15 rows)
+  sql_education=# select * from order_info;
+  
+  order_info_id | order_date | account_id | order_info_status | shop_id 
+  ---------------+------------+------------+-------------------+---------
+              1 | 2024-12-30 |          1 | requested         |       1
+              2 | 2025-01-20 |          1 | canceled          |       2
+              3 | 2024-12-31 |          2 | item_ordered      |       3
+              4 | 2025-01-20 |          2 | item_arrived      |       2
+              5 | 2025-04-01 |          2 | complete          |       2
+              7 | 2025-09-13 |          2 | requested         |       3
+  (6 rows)
 
 
 ③SQL文の解説
   ⒈「order_status」に指定された４つのステータスを追加する。
 
-  ⒉order_info_idが1のステータスを受付済にする。付随するorder_itemテーブルのステータスも受付済にする。（キャンセルが含まれている場合は弾く）
+  ⒉order_infoテーブルのorder_info_statusカラムの値がNULLであるレコード埋める
 
-  ⒊2の内容が反映されているか確認
+  ⒊実際の運用を想定して、order_infoテーブルにレコードを挿入してみる
 
-  ⒋ステータスがNULLのところを他のステータスで埋める
-
-  ⒌最終的な確認
+  ⒋最終的な確認
