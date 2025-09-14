@@ -15,8 +15,8 @@
 
 ②実際のSQL文と実行結果
   sql_education=# CREATE TABLE shop (
-    shop_name VARCHAR(20) NOT NULL,
     shop_id SERIAL PRIMARY KEY
+    shop_name VARCHAR(20) NOT NULL,
   );
 
   CREATE TABLE
