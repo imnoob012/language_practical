@@ -328,12 +328,11 @@ sql_education=# select name as "製品名", sum(quantity) as "注文合計数" f
 クエリ
 sql_education=# select order_id as "注文ID", sum(quantity * price) as "合計金額" from order_item left join item on item.item_id = order_item.item_id group by order_id order by "合計金額" desc;
 
-結果
  注文ID | 合計金額 
 --------+----------
-      4 |    20354
       5 |     5356
       3 |     3860
+      4 |     2834
       1 |     2612
       2 |     2170
 (5 rows)
