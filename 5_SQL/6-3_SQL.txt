@@ -1,0 +1,137 @@
+6-3-14 トランザクション（ロールバック）を行う
+クエリ
+sql_education=# begin;
+
+結果
+BEGIN
+
+クエリ
+sql_education=*# insert into account(name) values('ac3'),('ac4');
+
+結果
+INSERT 0 2
+
+クエリ（トランザクション環境）
+sql_education=*# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+          3 | ac3
+          4 | ac4
+(4 rows)
+
+クエリ（非トランザクション環境）
+psql sql_education
+
+結果
+psql (14.18 (Homebrew))
+Type "help" for help.
+
+クエリ（非トランザクション環境）
+sql_education=# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+(2 rows)
+
+クエリ（トランザクション環境）
+sql_education=*# rollback;
+
+結果
+ROLLBACK
+
+クエリ（トランザクション環境）
+sql_education=# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+(2 rows)
+
+6-3-15 トランザクション（コミット）を行う
+クエリ（トランザクション環境）
+sql_education=# begin;
+
+結果
+BEGIN
+
+クエリ（トランザクション環境）
+sql_education=*# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+(2 rows)
+
+クエリ（トランザクション環境）
+sql_education=*# insert into account(name) values('ac3'),('ac4');
+
+結果
+INSERT 0 2
+
+クエリ（トランザクション環境）
+sql_education=*# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+          7 | ac3
+          8 | ac4
+(4 rows)
+
+クエリ（非トランザクション環境）
+sql_education=# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+(2 rows)
+
+クエリ（トランザクション環境）
+sql_education=*# commit;
+
+結果
+COMMIT
+
+クエリ（トランザクション環境）
+sql_education=# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+          7 | ac3
+          8 | ac4
+(4 rows)
+
+クエリ（非トランザクション環境）
+sql_education=# select * from account;
+
+結果
+ account_id | name 
+------------+------
+          1 | ac1
+          2 | ac2
+          7 | ac3
+          8 | ac4
+(4 rows)
+
+
+
+
+

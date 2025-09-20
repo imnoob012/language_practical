@@ -1,0 +1,60 @@
+6-4-18 注文にステータスを追加する
+
+①３つの要件とそれぞれに対する実現方法
+・注文の状態を確認できるように、ステータスを追加しています
+  ⇨order_infoにorder_info_statusカラムを追加する。プログラムからの管理を想定しているが、注文のステータスは、enum型で管理します。既存の型である「order_status」に以下の値を挿入する
+      受付済：requested
+      発注済：item_ordered
+      在庫確保済：item_arrived
+      処理済：complete
+
+②実際のSQL文と実行結果
+  begin;
+  BEGIN
+
+  ALTER TYPE order_status ADD VALUE 'requested';
+  ALTER TYPE order_status ADD VALUE 'item_ordered';
+  ALTER TYPE order_status ADD VALUE 'item_arrived';
+  ALTER TYPE order_status ADD VALUE 'complete';
+
+
+  UPDATE order_info SET order_info_status = 'requested' WHERE order_info_id = 1;
+  UPDATE order_info SET order_info_status = 'item_ordered' WHERE order_info_id = 3;
+  UPDATE order_info SET order_info_status = 'item_arrived' WHERE order_info_id = 4;
+  UPDATE order_info SET order_info_status = 'complete' WHERE order_info_id = 5;
+
+  sql_education=# SELECT * FROM order_info ORDER BY order_info_id;
+  order_info_id | order_date | account_id | order_info_status | shop_id 
+  ---------------+------------+------------+-------------------+---------
+              1 | 2024-12-30 |          1 | requested         |       1
+              2 | 2025-01-20 |          1 | canceled          |       2
+              3 | 2024-12-31 |          2 | item_ordered      |       3
+              4 | 2025-01-20 |          2 | item_arrived      |       2
+              5 | 2025-04-01 |          2 | complete          |       2
+  (5 rows)
+  sql_education=# INSERT INTO order_info(order_date, account_id, order_info_status, shop_id) 
+  VALUES(CURRENT_DATE, 2, 'requested', 3);
+
+  INSERT 0 1
+
+  sql_education=# select * from order_info;
+  
+  order_info_id | order_date | account_id | order_info_status | shop_id 
+  ---------------+------------+------------+-------------------+---------
+              1 | 2024-12-30 |          1 | requested         |       1
+              2 | 2025-01-20 |          1 | canceled          |       2
+              3 | 2024-12-31 |          2 | item_ordered      |       3
+              4 | 2025-01-20 |          2 | item_arrived      |       2
+              5 | 2025-04-01 |          2 | complete          |       2
+              7 | 2025-09-13 |          2 | requested         |       3
+  (6 rows)
+
+
+③SQL文の解説
+  ⒈「order_status」に指定された４つのステータスを追加する。
+
+  ⒉order_infoテーブルのorder_info_statusカラムの値がNULLであるレコード埋める
+
+  ⒊実際の運用を想定して、order_infoテーブルにレコードを挿入してみる
+
+  ⒋最終的な確認

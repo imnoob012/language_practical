@@ -1,0 +1,243 @@
+・クエリと実行結果は一つのファイルにまとめています。
+・macOSで実行しています。
+
+6-1-0
+
+クエリ
+psql postgres
+
+結果
+psql (14.18 (Homebrew))
+Type "help" for help.
+
+postgres=#
+
+
+クエリ
+select current_database();
+
+結果
+ current_database 
+------------------
+ postgres
+(1 row)
+
+
+クエリ
+select current_schema();
+
+結果
+ current_schema 
+----------------
+ public
+(1 row)
+
+
+クエリ
+select current_database(), current_schema();
+
+結果
+ current_database | current_schema 
+------------------+----------------
+ postgres         | public
+(1 row)
+
+
+
+
+6-1-1
+クエリ
+\l
+
+結果
+                                       List of databases
+   Name    |      Owner      | Encoding | Collate | Ctype |          Access privileges          
+-----------+-----------------+----------+---------+-------+-------------------------------------
+ postgres  | kiyokawaritsuki | UTF8     | C       | C     | 
+ template0 | kiyokawaritsuki | UTF8     | C       | C     | =c/kiyokawaritsuki                 +
+           |                 |          |         |       | kiyokawaritsuki=CTc/kiyokawaritsuki
+ template1 | kiyokawaritsuki | UTF8     | C       | C     | =c/kiyokawaritsuki                 +
+           |                 |          |         |       | kiyokawaritsuki=CTc/kiyokawaritsuki
+(3 rows)
+
+
+クエリ
+create database sql_education
+\l;
+
+結果
+CREATE DATABASE
+
+                                         List of databases
+     Name      |      Owner      | Encoding | Collate | Ctype |          Access privileges          
+---------------+-----------------+----------+---------+-------+-------------------------------------
+ postgres      | kiyokawaritsuki | UTF8     | C       | C     | 
+ sql_education | kiyokawaritsuki | UTF8     | C       | C     | 
+ template0     | kiyokawaritsuki | UTF8     | C       | C     | =c/kiyokawaritsuki                 +
+               |                 |          |         |       | kiyokawaritsuki=CTc/kiyokawaritsuki
+ template1     | kiyokawaritsuki | UTF8     | C       | C     | =c/kiyokawaritsuki                 +
+               |                 |          |         |       | kiyokawaritsuki=CTc/kiyokawaritsuki
+(4 rows)
+
+
+クエリ
+\c sql_education
+
+結果
+You are now connected to database "sql_education" as user "kiyokawaritsuki".
+
+
+クエリ
+select current_database(), current_schema();
+
+結果
+ current_database | current_schema 
+------------------+----------------
+ sql_education    | public
+(1 row)
+
+
+クエリ
+\dn
+
+結果
+     List of schemas
+  Name  |      Owner      
+--------+-----------------
+ public | kiyokawaritsuki
+(1 row)
+
+
+クエリ
+create schema sql_education;
+
+結果
+CREATE SCHEMA
+
+
+クエリ
+sql_education=# \dn
+
+結果
+         List of schemas
+     Name      |      Owner      
+---------------+-----------------
+ public        | kiyokawaritsuki
+ sql_education | kiyokawaritsuki
+(2 rows)
+
+
+クエリ
+set search_path to sql_education;
+
+結果
+SET
+
+
+クエリ
+sql_education=# select current_database(), current_schema();
+
+結果
+ current_database | current_schema 
+------------------+----------------
+ sql_education    | sql_education
+(1 row)
+
+
+クエリ
+set search_path to public;
+
+結果
+SET
+
+クエリ
+sql_education=# select current_database(), current_schema();
+
+結果
+ current_database | current_schema 
+------------------+----------------
+ sql_education    | public
+(1 row)
+
+
+
+
+6-1-2
+クエリ
+sql_education=# create table account (
+ account_id serial primary key,
+ name character varying(50) not null
+);
+
+結果
+CREATE TABLE
+
+
+クエリ
+sql_education=# create table item (
+ item_id serial primary key,
+ name character varying(50) not null,
+ price integer not null
+);
+
+結果
+CREATE TABLE
+
+
+クエリ
+sql_education=# create table order_info(
+ order_info_id serial primary key,
+ order_date date not null,
+ account_id integer not null,
+ foreign key(account_id) references account(account_id) on delete cascade
+);
+
+結果
+CREATE TABLE
+
+
+クエリ ※quantityの綴りを間違えていますが、6-2のorder_infoのデータ挿入でリネームしています。
+create table order_item (
+sql_education(#  id serial primary key,
+sql_education(#  order_id integer not null,
+sql_education(#  item_id integer not null,
+sql_education(#  quentity int not null,
+sql_education(#  foreign key(order_id) references order_info(order_info_id) on delete cascade,
+sql_education(#  foreign key(item_id) references item(item_id) on delete restrict
+sql_education(# );
+
+結果
+CREATE TABLE
+
+
+テーブルの一覧取得
+
+クエリ
+sql_education=# \z
+
+結果
+                                          Access privileges
+ Schema |             Name             |   Type   | Access privileges | Column privileges | Policies 
+--------+------------------------------+----------+-------------------+-------------------+----------
+ public | account                      | table    |                   |                   | 
+ public | account_account_id_seq       | sequence |                   |                   | 
+ public | item                         | table    |                   |                   | 
+ public | item_item_id_seq             | sequence |                   |                   | 
+ public | order_info                   | table    |                   |                   | 
+ public | order_info_order_info_id_seq | sequence |                   |                   | 
+ public | order_item                   | table    |                   |                   | 
+ public | order_item_id_seq            | sequence |                   |                   | 
+(8 rows)
+
+クエリ
+\dt
+
+結果
+               List of relations
+ Schema |    Name    | Type  |      Owner      
+--------+------------+-------+-----------------
+ public | account    | table | kiyokawaritsuki
+ public | item       | table | kiyokawaritsuki
+ public | order_info | table | kiyokawaritsuki
+ public | order_item | table | kiyokawaritsuki
+(4 rows)
