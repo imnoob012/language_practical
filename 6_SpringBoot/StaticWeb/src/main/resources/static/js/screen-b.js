@@ -1,6 +1,3 @@
-	
-
-
 // テキストボックスに入力された値を出力する処理を定義
 const clickedTextButton = document.getElementById('text-button');
 	

@@ -1,4 +1,3 @@
-	
 	document.addEventListener('DOMContentLoaded', function() {
 		// レコードを追加する処理を定義
 		function addRow() {
