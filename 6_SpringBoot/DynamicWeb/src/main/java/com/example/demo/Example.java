@@ -104,17 +104,19 @@ public class Example {
 	public SkillListDto getSkills() throws SQLException {
 		List<String> userNames = new ArrayList<>();
 		List<String> userSkills = new ArrayList<>();
+		List<Integer> skillIds = new ArrayList<>();
 		
 		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "root", "root");
-		PreparedStatement statement = connection.prepareStatement("SELECT u.name, s.skill FROM skills AS s INNER JOIN users AS u ON s.user_id = u.id");
+		PreparedStatement statement = connection.prepareStatement("SELECT s.id, u.name, s.skill FROM skills AS s INNER JOIN users AS u ON s.user_id = u.id");
 		ResultSet resultSet = statement.executeQuery();
 	
 		while(resultSet.next()) {
 			userNames.add(resultSet.getString("name"));
 			userSkills.add(resultSet.getString("skill"));
+			skillIds.add(resultSet.getInt("id"));
 		}
 		
-		return new SkillListDto(userNames, userSkills);
+		return new SkillListDto(userNames, userSkills, skillIds);
 	}
 //  絞り込み検索処理
 	@PostMapping("/api/skills/filter")
@@ -124,6 +126,7 @@ public class Example {
 		
 		List<String> userNames = new ArrayList<>();
 		List<String> userSkills = new ArrayList<>();
+		List<Integer> skillIds = new ArrayList<>();
 		
 		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "root", "root");
 		PreparedStatement statement = connection.prepareStatement("SELECT u.name, s.skill FROM skills AS s INNER JOIN users AS u ON s.user_id = u.id WHERE skill ~ ?");
@@ -133,9 +136,10 @@ public class Example {
 		while(resultSet.next()) {
 			userNames.add(resultSet.getString("name"));
 			userSkills.add(resultSet.getString("skill"));
+			skillIds.add(resultSet.getInt("id"));
 		}
 		
-		return new SkillListDto(userNames, userSkills);
+		return new SkillListDto(userNames, userSkills, skillIds);
 	}
 	
 //  スキルを追加する処理
@@ -167,14 +171,13 @@ public class Example {
 	}
 	
 //	スキルを削除する処理
-	@PostMapping("/api/skills/delete/{userName}/{userSkill}")
-	public void deleteSkill(@PathVariable("userName") String userName, @PathVariable("userSkill") String userSkill) throws SQLException {
+	@PostMapping("/api/skills/delete/{skillId}")
+	public void deleteSkill(@PathVariable("skillId") int skillId) throws SQLException {
 		try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "root", "root")) {
 			
 			// レコードを削除する処理
-			try (PreparedStatement statement = connection.prepareStatement("DELETE FROM skills WHERE skill = ? AND user_id = (SELECT id FROM users WHERE name = ?)")) {
-				statement.setString(1, userSkill);
-				statement.setString(2, userName);
+			try (PreparedStatement statement = connection.prepareStatement("DELETE FROM skills WHERE id = ?")) {
+				statement.setInt(1, skillId);
 				statement.executeUpdate();
 			}
 		} catch (SQLException e) {

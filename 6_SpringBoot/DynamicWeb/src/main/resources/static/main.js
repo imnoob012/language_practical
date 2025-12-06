@@ -115,9 +115,10 @@ document.getElementById('get-skills-button').addEventListener('click', () => {
 			// 画面上の初期化
 			skillListBody.innerHTML = '';
 			
-			// userNames配列とuserSkills配列を受け取る
+			// userNames配列とuserSkills配列とskillIds配列を受け取る
 			const userNames = skillListDto.userNames;
 			const userSkills = skillListDto.userSkills;
+			const skillIds = skillListDto.skillIds;
 			
 			
 			// userNames配列の長さを基準にループし、名前とスキルを同時に処理する
@@ -137,6 +138,7 @@ document.getElementById('get-skills-button').addEventListener('click', () => {
 				const deleteCell = document.createElement('td');
 				const button = document.createElement('button');
 				button.textContent = '削除';
+				button.setAttribute('data-skill-id', skillIds[index]);
 				// どの削除ボタンかを特定するために定義
 				button.classList.add('delete-skill-btn');
 				deleteCell.appendChild(button);
@@ -165,9 +167,10 @@ document.getElementById('get-skill-filter-button').addEventListener('click', () 
 			// 画面上の初期化
 			skillListBody.innerHTML = '';
 			
-			// userNames配列とuserSkills配列を受け取る
+			// userNames配列とuserSkills配列とskillIds配列を受け取る
 			const userNames = skillListDto.userNames;
 			const userSkills = skillListDto.userSkills;
+			const skillIds = skillListDto.skillIds;
 			
 			// userNames配列の長さを基準にループし、名前とスキルを同時に処理する
 			userNames.forEach((userName, index) => {
@@ -186,6 +189,7 @@ document.getElementById('get-skill-filter-button').addEventListener('click', () 
 				const deleteCell = document.createElement('td');
 				const button = document.createElement('button');
 				button.textContent = '削除';
+				button.setAttribute('data-skill-id', skillIds[index]);
 				// どの削除ボタンかを特定するために定義
 				button.classList.add('delete-skill-btn');
 				deleteCell.appendChild(button);
@@ -284,8 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			});
 			if (response.ok) {
-				alert(`ユーザーID:${userId}のレコードを削除しました。`);	
-				
 				// 画面上のレコードを削除
 				const recordToDelete = deleteButton.closest('tr');
 				recordToDelete.remove();
@@ -293,16 +295,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		// スキルテーブルの削除ボタン押下時処理
 		if (deleteButton.classList.contains('delete-skill-btn')) {
-			const userName = deleteButton.closest('tr').cells[0].textContent.trim();
-			const userSkill = deleteButton.closest('tr').cells[1].textContent.trim();
-			const response = await fetch(`/api/skills/delete/${userName}/${userSkill}`, {
+			const skillId = deleteButton.getAttribute('data-skill-id');
+			const response = await fetch(`/api/skills/delete/${skillId}`, {
 				method: 'POST',
 				headers: {
 					'Content-type': 'application/json'
 				}
 			});
 			if (response.ok) {
-				alert(`ユーザー（${userName}）のスキル（${userSkill}）を削除しました。`);
 				const recordToDelete = deleteButton.closest('tr');
 				recordToDelete.remove();
 			}
