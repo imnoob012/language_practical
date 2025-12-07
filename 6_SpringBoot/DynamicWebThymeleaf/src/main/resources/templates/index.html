@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head lang="ja" xmlns="http://www.thymeleaf.org">
+		<meta charset="UTF-8">
+		<title>テーブル一覧</title>
+		<link rel="stylesheet" th:href="@{/style.css}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	</head>
+	<body>
+		<div id="table-content">
+			<div id="users-table-zone">
+				<h2>ユーザーテーブル</h2>
+				<button id="get-button">全件取得</button>
+				<div id="filter-search-content">
+					<input type="text" id="filter-username" placeholder="ユーザー名を入力">
+					<button id="get-filter-button">絞り込み</button>	
+				</div>
+				<div th:if="${#lists.size(allData.userNames) == 0}">
+					<p>ユーザテーブルにデータがありません。</p>
+				</div>
+				<div th:if="${#lists.size(allData.userNames) > 0}" >
+					<table id="user-list">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>ユーザー名</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="name, stat : ${allData.userNames}">
+								<td th:text="${allData.userIds[__${stat.index}__]}"></td>
+								<td th:text="${name}"></td>
+								<td><button class="delete-user-btn" th:data-id="${allData.userIds[__${stat.index}__]}">削除</button></td>
+							</tr>
+						</tbody>
+					</table>				
+				</div>
+			</div>
+			
+			<div id="skills-table-zone">
+				<h2>スキルテーブル</h2>
+				<button id="get-skills-button">全件取得</button>
+				<div id="filter-search-content">
+					<input type="text" id="filter-skill" placeholder="スキルを入力">
+					<button id="get-skill-filter-button">絞り込み</button>
+				</div>
+				<div th:if="${#lists.size(allData.skills) == 0}">
+					<p>スキルテーブルにデータがありません。</p>
+				</div>
+				<div th:if="${#lists.size(allData.skillIds) > 0}">
+					<table id="skill-list">
+						<thead>
+							<tr>
+								<th class="sort-row" data-index="0">ユーザー名<i class="fa-solid fa-sort"></i></th>
+								<th class="sort-row" data-index="1">スキル<i class="fa-solid fa-sort"></i></th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="name, stat :${allData.skillNames}">
+							<td th:text="${name}"></td>
+							<td th:text="${allData.skills[__${stat.index}__]}"></td>
+							<td><button class="delete-skill-btn" th:data-skill-id="${allData.skillIds[__${stat.index}__]}">削除</button></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+			<h2>usersテーブルにデータを登録</h2>
+			<input type="text" id="username" placeholder="名前を入力">
+			<button id="user-add-button">登録</button>
+			<h2>skillsテーブルにデータを登録</h2>
+			<input type="number" id="user-id" placeholder="user_idを入力">		
+			<input type="text" id="skill" placeholder="スキルを入力">
+			<button id="skill-add-button">登録</button>
+		
+		<script th:src="@{/main.js}"></script>
+	</body>
+</html>
