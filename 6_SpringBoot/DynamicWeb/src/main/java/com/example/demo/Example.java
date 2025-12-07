@@ -129,7 +129,7 @@ public class Example {
 		List<Integer> skillIds = new ArrayList<>();
 		
 		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "root", "root");
-		PreparedStatement statement = connection.prepareStatement("SELECT u.name, s.skill FROM skills AS s INNER JOIN users AS u ON s.user_id = u.id WHERE skill ~ ?");
+		PreparedStatement statement = connection.prepareStatement("SELECT s.id, u.name, s.skill FROM skills AS s INNER JOIN users AS u ON s.user_id = u.id WHERE skill ~ ?");
 		statement.setString(1, regexPattern);
 		ResultSet resultSet = statement.executeQuery();
 		
