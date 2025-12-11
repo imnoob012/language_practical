@@ -6,16 +6,17 @@ import org.springframework.stereotype.Service;
 import com.forgeon.membermanagement.model.dto.SkillDto;
 import com.forgeon.membermanagement.model.dto.SkillListDto;
 import com.forgeon.membermanagement.model.dto.UserListDto;
-import com.forgeon.membermanagement.model.repository.JdbcSkillRepositoryImpl;
-import com.forgeon.membermanagement.model.repository.JdbcUserRepositoryImpl;
+import com.forgeon.membermanagement.model.repository.SkillRepository;
+import com.forgeon.membermanagement.model.repository.UserRepository;
 
 @Service
 public class UserSkillService {
+    
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private SkillRepository skillRepository;
 
-    @Autowired
-    private JdbcUserRepositoryImpl userRepository;
-    @Autowired
-    private JdbcSkillRepositoryImpl skillRepository;
 
     // --- ユーザー関連のサービス ---
     public UserListDto findAllUsers(){
@@ -31,7 +32,6 @@ public class UserSkillService {
     }
 
     public void deleteUser(int userId) {
-        // 1. スキル (子テーブル) を先に削除
         userRepository.delete(userId);
     }
 
