@@ -19,7 +19,7 @@ public class UserSkillService {
 
 
     // --- ユーザー関連のサービス ---
-    public UserListDto findAllUsers(){
+    public UserListDto findAllUsers() {
         return userRepository.findAll();
     }
 

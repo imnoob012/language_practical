@@ -1,12 +1,15 @@
 package com.forgeon.membermanagement.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.forgeon.membermanagement.exception.DataAccessException;
 import com.forgeon.membermanagement.model.dto.SkillDto;
 import com.forgeon.membermanagement.model.dto.SkillListDto;
 import com.forgeon.membermanagement.model.dto.UserListDto;
@@ -61,7 +64,14 @@ public class UserSkillRestController {
 	//スキルを追加する処理
 	@PostMapping("/api/skills/add")
 	public void saveSkill(@RequestBody SkillDto skillDto) {
-		userSkillService.saveSkill(skillDto);
+		try {
+			userSkillService.saveSkill(skillDto);
+		} catch (DataAccessException e) {
+			throw new ResponseStatusException(
+					HttpStatus.BAD_REQUEST,
+					e.getMessage()
+			);
+		}
 	}
 	
 	//スキルを削除する処理

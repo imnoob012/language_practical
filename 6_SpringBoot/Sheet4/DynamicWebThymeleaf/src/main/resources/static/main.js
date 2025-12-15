@@ -100,10 +100,16 @@ document.getElementById('user-add-button').addEventListener('click', () => {
 		},
 		body: document.getElementById('username').value
 	})
-		.then(data => {
-			alert('usersテーブルへデータ登録に成功しました。');
-			console.log('usersテーブルへデータ登録に成功しました。', data);
-		})
+		.then(async response => {
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message);
+			} else {
+				alert('データの登録に成功しました');
+			}
+		}).catch(error => {
+			alert(error.message);
+		});
 })
 
 // Skillsテーブルの全件取得処理
@@ -281,31 +287,47 @@ document.addEventListener('DOMContentLoaded', () => {
 		// ユーザーテーブルの削除ボタン押下時処理
 		if (deleteButton.classList.contains('delete-user-btn')) {
 			const userId = deleteButton.getAttribute('data-id');
-			const response = await fetch(`/api/users/delete/${userId}`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json'
+			try {
+				const response = await fetch(`/api/users/delete/${userId}`, {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/json'
+					}
+				})
+				if (response.ok) {
+					// 画面上のレコードを削除
+					const recordToDelete = deleteButton.closest('tr');
+					recordToDelete.remove();
+					alert('削除に成功しました');
+				} else {
+					const errorData = await response.json();
+					throw new Error(errorData.message);
 				}
-			});
-			if (response.ok) {
-				// 画面上のレコードを削除
-				const recordToDelete = deleteButton.closest('tr');
-				recordToDelete.remove();
+			} catch (error) {
+				alert(error.message);
 			}
 		}
 		// スキルテーブルの削除ボタン押下時処理
 		if (deleteButton.classList.contains('delete-skill-btn')) {
 			const skillId = deleteButton.getAttribute('data-skill-id');
-			const response = await fetch(`/api/skills/delete/${skillId}`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json'
+			try {
+				const response = await fetch(`/api/skills/delete/${skillId}`, {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/json'
+					}
+				});
+				if (response.ok) {
+					const recordToDelete = deleteButton.closest('tr');
+					recordToDelete.remove();
+					alert('削除に成功しました');
+				} else {
+					const errorData = await response.json();
+					throw new Error(errorData.message);
 				}
-			});
-			if (response.ok) {
-				const recordToDelete = deleteButton.closest('tr');
-				recordToDelete.remove();
+			} catch (error) {
+				alert(error.message);
 			}
 		}
-	})
+	});
 })
