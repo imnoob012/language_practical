@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Repository;
 
-import com.forgeon.membermanagement.exception.DataAccessException;
+
 import com.forgeon.membermanagement.model.dto.UserListDto;
 
 @Repository
@@ -40,7 +41,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 	
 		
@@ -75,7 +76,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 		
 		return new UserListDto(userNames, userIds);
@@ -96,7 +97,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 	}
 	
@@ -122,7 +123,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 	}
 }

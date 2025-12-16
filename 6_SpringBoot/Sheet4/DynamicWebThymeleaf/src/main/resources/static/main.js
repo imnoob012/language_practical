@@ -1,8 +1,14 @@
 // Usersテーブルのデータ全件取得処理
 document.getElementById('get-button').addEventListener('click', () => {
 	fetch('http://localhost:8080/api/users')
-		.then((response) => { return response.json() })
-		.then((userResponse) => {
+		.then(async (response) => {
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message);	
+			}
+			return response.json();
+			
+		}).then((userResponse) => {
 			const userListBody = document.getElementById('user-list').querySelector('tbody');
 			// 画面上の初期化
 			userListBody.innerHTML = '';
@@ -39,7 +45,7 @@ document.getElementById('get-button').addEventListener('click', () => {
 				
 				userListBody.appendChild(newRow);
 			});
-		});
+		}).catch(error => alert(error.message))
 });
 
 // Usersテーブルの部分一致検索処理
@@ -51,8 +57,14 @@ document.getElementById('get-filter-button').addEventListener('click', () => {
 		},
 		body: document.getElementById('filter-username').value
 	})
-	.then((response) => { return response.json() })
-	.then((userResponse) => {
+	.then(async (response) => {
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.message);
+		}
+		return response.json(); 
+	
+	}).then((userResponse) => {
 		const userListBody = document.getElementById('user-list').querySelector('tbody');
 		// 画面上の初期化
 		userListBody.innerHTML = '';
@@ -88,7 +100,7 @@ document.getElementById('get-filter-button').addEventListener('click', () => {
 			
 			userListBody.appendChild(newRow);
 		});
-	});
+	}).catch(error => alert(error.message));
 });
 
 // usersテーブルへデータ登録処理
@@ -115,8 +127,14 @@ document.getElementById('user-add-button').addEventListener('click', () => {
 // Skillsテーブルの全件取得処理
 document.getElementById('get-skills-button').addEventListener('click', () => {
 	fetch('http://localhost:8080/api/skills')
-		.then((response) => { return response.json() })
-		.then((skillListDto) => {
+		.then(async (response) => {
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message);
+			} 
+			return response.json();
+			
+		 }).then((skillListDto) => {
 			const skillListBody = document.getElementById('skill-list').querySelector('tbody');
 			// 画面上の初期化
 			skillListBody.innerHTML = '';
@@ -155,7 +173,7 @@ document.getElementById('get-skills-button').addEventListener('click', () => {
 				
 				skillListBody.appendChild(newRow);
 			});
-		});
+		}).catch(error => alert(error.message));
 });
 
 // skillsテーブルへの部分一致検索
@@ -167,8 +185,14 @@ document.getElementById('get-skill-filter-button').addEventListener('click', () 
 		},
 		body: document.getElementById('filter-skill').value
 	})
-		.then((response) => { return response.json() })
-		.then((skillListDto) => {
+		.then(async (response) => {
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message);
+			} 
+			return response.json();
+			
+		}).then((skillListDto) => {
 			const skillListBody = document.getElementById('skill-list').querySelector('tbody');
 			// 画面上の初期化
 			skillListBody.innerHTML = '';
@@ -206,7 +230,7 @@ document.getElementById('get-skill-filter-button').addEventListener('click', () 
 				
 				skillListBody.appendChild(newRow);
 			});
-		});
+		}).catch(error => alert(error.message));
 });
 // skillsテーブルのユーザーカラムとスキルカラムのソート処理を定義
 let sortDirection = 1; // 昇順が1降順が-1とする

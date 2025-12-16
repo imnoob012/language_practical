@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
-import com.forgeon.membermanagement.exception.DataAccessException;
 import com.forgeon.membermanagement.model.dto.SkillDto;
 import com.forgeon.membermanagement.model.dto.SkillListDto;
 
@@ -41,11 +42,11 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 			}
 			
 		} catch (SQLException e) {
-			// SQLExceptionをDataAccessExceptionにラップ
+			// SQLExceptionをDataAccessResourceFailureExceptionにラップ
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 			
 		return new SkillListDto(userNames, userSkills, skillIds);
@@ -74,11 +75,11 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 				}
 			}
 		} catch (SQLException e) {
-			// SQLExceptionをDataAccessExceptionにラップ
+			// SQLExceptionをDataAccessResourceFailureExceptionにラップ
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 		
 		return new SkillListDto(userNames, userSkills, skillIds);
@@ -100,14 +101,14 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 				String errorMessage = "入力されたユーザーID（" + skillDto.getUserId() + "）は存在しません";
 				System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 				
-				throw new DataAccessException(errorMessage, e);
+				throw new DataIntegrityViolationException(errorMessage, e);
 			}
 		} catch (SQLException e) {
-			// SQLExceptionをDataAccessExceptionにラップ
+			// SQLExceptionをDataAccessResourceFailureExceptionにラップ
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 	}
 	
@@ -123,11 +124,11 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 			}
 			
 		} catch (SQLException e) {
-			// SQLExceptionをDataAccessExceptionにラップ
+			// SQLExceptionをDataAccessResourceFailureExceptionにラップ
 			String errorMessage = "エラーが発生しました。";
 			System.err.println("JBDCエラーコード:" + e.getErrorCode() + ", SQL State: " + e.getSQLState());
 			
-			throw new DataAccessException(errorMessage, e);
+			throw new DataAccessResourceFailureException(errorMessage, e);
 		}
 	}
 }
