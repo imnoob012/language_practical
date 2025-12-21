@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>LayOut Fragments</title>
+	</head>
+	<body>
+		<header th:fragment="header" class="fixed-header">
+			<a href="/" class="home-icon">
+				<i class="fa-solid fa-house"></i>
+			</a>
+			<div class="header-title">STATIC WEB</div>
+			
+		</header>
+		
+		<footer th:fragment="footer" class="site-footer">
+			<div class="footer-wrapper">
+			   <a href="/" class="home-icon"><i class="fa-solid fa-house"></i></a>
+			   <span>フッターですフッターですフッターですフッターです</span>
+			</div>
+		</footer>
+		
+	</body>
+</html>
