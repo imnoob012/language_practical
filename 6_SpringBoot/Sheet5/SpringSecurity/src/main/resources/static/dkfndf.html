@@ -1,0 +1,40 @@
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const table = document.getElementById('table-content');
+    
+    table.addEventListener('click', async (e) => {
+        const target = e.target;
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+        // --- ユーザー情報の更新処理 ---
+        if (target.classList.contains('update-user-btn')) {
+            const row = target.closest('tr');
+            const updatedData = {
+                id: target.getAttribute('data-id'),
+                name: row.querySelector('input[type="text"]').value,
+                role: row.querySelector('select').value
+            };
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/users/update`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', [header]: token },
+                    body: JSON.stringify(updatedData)
+                });
+                if (response.ok) alert('ユーザー情報を更新しました');
+                else throw new Error('更新に失敗しました');
+            } catch (error) { alert(error.message); }
+        }
+
+        // --- ユーザー情報の削除処理 (既存) ---
+        if (target.classList.contains('delete-user-btn')) {
+            // ... (あなたの既存の削除コード) ...
+        }
+
+        // --- スキルの削除処理 (既存) ---
+        if (target.classList.contains('delete-skill-btn')) {
+            // ... (あなたの既存の削除コード) ...
+        }
+    });
+});

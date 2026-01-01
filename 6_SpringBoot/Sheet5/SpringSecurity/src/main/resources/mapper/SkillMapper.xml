@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.forgeon.membermanagement.model.mapper.SkillMapper">
+	<resultMap id="SkillsWithUsersResultMap" type="com.forgeon.membermanagement.model.entity.User">
+		<id property="id" column="id"></id>
+		<result property="name" column="name"/>
+		
+		<association property="skill" javaType="com.forgeon.membermanagement.model.entity.Skill">
+			<id property="id" column="skill_id"></id>
+			<result property="userId" column="user_id"/>
+			<result property="skill" column="skill"/>
+		</association>
+	</resultMap>
+	
+	<select id="findAllOrSearchWithUsers" resultMap="SkillsWithUsersResultMap">
+		SELECT 
+			s.id AS skill_id,
+			u.name,
+			s.skill
+		FROM skills AS s
+		INNER JOIN users AS u ON s.user_id = u.id
+		
+		<where>
+			<if test="i != null and i != ''">
+				skill LIKE CONCAT('%', #{i}, '%')
+			</if>
+		</where>
+	</select>
+	
+</mapper>

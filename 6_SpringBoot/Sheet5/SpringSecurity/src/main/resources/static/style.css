@@ -1,0 +1,43 @@
+/* テーブルの表を全て格子状にする */
+table {
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid black;
+	
+}
+
+
+#user-list > thead {
+	background-color: chocolate;
+}
+
+#get-button {
+	margin-bottom: 19.92px;
+}
+
+#get-regex-button {
+	margin-bottom: 19.92px;
+}
+
+#table-content {
+	display: flex;
+	gap: 20px;
+}
+
+#skill-list > thead {
+	background-color: chocolate;
+}
+
+#get-skills-button {
+	margin-bottom: 19.92px;
+}
+
+.sort-row {
+	cursor: pointer;
+}
+
+.sort-row:hover {
+    background-color: rgb(255, 143, 67);
+}
