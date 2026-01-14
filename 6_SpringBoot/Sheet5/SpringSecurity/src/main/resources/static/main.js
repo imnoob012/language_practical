@@ -125,10 +125,6 @@ document.getElementById('get-filter-button').addEventListener('click', () => {
 
 // usersテーブルへデータ登録処理
 document.getElementById('user-add-button').addEventListener('click', () => {
-	if (isAdmin != true) {
-		alert('権限がありません。管理者のみ実行可能です。');
-		return;
-	}
 	const token = document.querySelector('meta[name="_csrf"]').content;
 	const header = document.querySelector('meta[name="_csrf_header"]').content;
 	const roleElement = document.querySelector('input[name="role"]:checked');
@@ -306,10 +302,6 @@ sortList.forEach(header => {
 document.getElementById('skill-add-button').addEventListener('click', () => {
 	const token = document.querySelector('meta[name="_csrf"]').content;
 	const header = document.querySelector('meta[name="_csrf_header"]').content;
-	if (isAdmin != true) {
-		alert('権限がありません。管理者のみ実行可能です。');
-		return;
-	}
 	const skillData = {
 		//JSONではスネークケースが多用される
 		user_id: parseInt(document.getElementById('user-id').value),
@@ -414,10 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		
 		// ユーザーテーブルの削除ボタン押下時処理
 		if (e.target.classList.contains('delete-user-btn')) {
-			if (isAdmin != true) {
-				alert('権限がありません。管理者のみ実行可能です。');
-				return;
-			}
 			const userId = e.target.getAttribute('data-id');
 			try {
 				const response = await fetch(`/api/users/delete/${userId}`, {
@@ -442,10 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		// スキルテーブルの削除ボタン押下時処理
 		if (e.target.classList.contains('delete-skill-btn')) {
-			if (isAdmin != true) {
-				alert('権限がありません。管理者のみ実行可能です。');
-				return;
-			}
 			const skillId = e.target.getAttribute('data-skill-id');
 			try {
 				const response = await fetch(`/api/skills/delete/${skillId}`, {
