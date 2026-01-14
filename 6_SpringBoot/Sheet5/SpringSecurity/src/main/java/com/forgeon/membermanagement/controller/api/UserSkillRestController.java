@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,7 @@ public class UserSkillRestController {
 	}
 	
 	//ユーザー追加
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/api/users/add")
 	public void saveUser(@RequestBody UserDto userDto) {
 		try {
@@ -61,6 +63,7 @@ public class UserSkillRestController {
 	}
 	
 	//ユーザー更新
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/api/users/update")
 	public void updateUser(@RequestBody UserDto userDto) {
 		try {
@@ -74,6 +77,7 @@ public class UserSkillRestController {
 	}
 	
 	//ユーザー削除
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/api/users/delete/{userId}")
 	public void deleteUser(@PathVariable("userId") int userId) {
 		try {
